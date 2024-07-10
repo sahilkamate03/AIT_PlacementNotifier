@@ -55,9 +55,9 @@ def send_discord_message(message):
 def send_msg(response):
     data = response[0]["result"]["data"]
     random_emoji = random.choice(emojis)
-    final_text = f"{random_emoji}\n\n"
-    final_text += f"<@&{config['ROLE_ID']}> \nNotice No: {config["PREV_NOTICES_COUNT"]}\n\n"
-    final_text += f'**{data["title"]}**' + "\n\n"
+    final_text = f"ㅤ\n\n{random_emoji} "
+    final_text += f"<@&{config['ROLE_ID']}> \nNotice No: {config["PREV_NOTICES_COUNT"]}\n"
+    final_text += f'**{data["title"]}**' + "\n\nㅤ"
     send_discord_message(final_text)
     final_text = ""
     html = data["body"]
