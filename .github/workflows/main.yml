@@ -28,6 +28,7 @@ jobs:
           COOKIE: ${{ secrets.COOKIE }}
           BASE_API_URL: ${{ secrets.BASE_API_URL }}
           ROLE_ID: ${{ secrets.ROLE_ID }}
+          DISCORD_ERROR_WEBHOOK_URL: ${{ secrets.DISCORD_ERROR_WEBHOOK_URL }}
 
         run: python index.py
 
