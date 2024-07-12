@@ -1,7 +1,6 @@
-import os
 import requests
 from config import config, write_prev_count
-from discord import send_msg
+from discord import send_msg, send_error
 
 BASE_API_URL = config["BASE_API_URL"]
 
@@ -27,11 +26,16 @@ def request_maker(url, notice_id=None):
         return response
 
     except Exception as e:
+        send_error(str(e))
         print("Error running query:", e)
 
 
 def worker(response):
     current_notices_count = response[0]["result"]["data"]["totalNotice"]
+    if current_notices_count == 0:
+        send_error("COOKIE expired !!")
+        return
+
     prev_notices_count = config["PREV_NOTICES_COUNT"]
     if current_notices_count <= prev_notices_count:
         return

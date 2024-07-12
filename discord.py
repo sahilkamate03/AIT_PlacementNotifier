@@ -5,7 +5,46 @@ import random
 import markdownify
 from config import config
 
-emojis = ['🙇🏻','👴🏻','🫶🏻','👍🏻','😘','🤠','😉','😇','🤖','👾','🤡','😸','💫','🤩','🐻','🪿','🐼','🦄','🦬','🐮','🐶','🎉','🎊','🧸','🔥','🌞','🍀','🍁','🍄','🦊','🐛','🐣','😎']
+notice_no = config["PREV_NOTICES_COUNT"]
+WH_NORMAL_URL = config["WEBHOOK_URL"]
+WH_ERROR_URL = config["WEBHOOK_ERROR_URL"]
+
+emojis = [
+    "🙇🏻",
+    "👴🏻",
+    "🫶🏻",
+    "👍🏻",
+    "😘",
+    "🤠",
+    "😉",
+    "😇",
+    "🤖",
+    "👾",
+    "🤡",
+    "😸",
+    "💫",
+    "🤩",
+    "🐻",
+    "🪿",
+    "🐼",
+    "🦄",
+    "🦬",
+    "🐮",
+    "🐶",
+    "🎉",
+    "🎊",
+    "🧸",
+    "🔥",
+    "🌞",
+    "🍀",
+    "🍁",
+    "🍄",
+    "🦊",
+    "🐛",
+    "🐣",
+    "😎",
+]
+
 
 def break_paragraph(paragraph, max_length=1900):
     paragraphs = []
@@ -32,8 +71,7 @@ def break_paragraph(paragraph, max_length=1900):
     return paragraphs
 
 
-def send_discord_message(message):
-    webhook_url = config["WEBHOOK_URL"]
+def send_discord_message(webhook_url, message):
     # Discord limits messages to 2000 characters, so split the message into chunks
     chunks = break_paragraph(message)
 
@@ -56,9 +94,9 @@ def send_msg(response):
     data = response[0]["result"]["data"]
     random_emoji = random.choice(emojis)
     final_text = f"ㅤ\n\n{random_emoji} "
-    final_text += f"<@&{config['ROLE_ID']}> \nNotice No: {config["PREV_NOTICES_COUNT"]}\n"
+    final_text += f"<@&{config['ROLE_ID']}> \nNotice No: {notice_no}\n"
     final_text += f'**{data["title"]}**' + "\n\nㅤ"
-    send_discord_message(final_text)
+    send_discord_message(WH_NORMAL_URL, final_text)
     final_text = ""
     html = data["body"]
     markdown_txt = markdownify.markdownify(html, heading_style="ATX")
@@ -68,5 +106,10 @@ def send_msg(response):
         attachment = data["attachments"]
         final_text += "\n\n"
         final_text += f'[{attachment[0]["name"]}]({attachment[0]["url"]})'
+    notice_no += 1
+    send_discord_message(WH_NORMAL_URL, final_text)
 
-    send_discord_message(final_text)
+
+def send_error(error_msg):
+    error_msg += "<@&1046045978802782288>\n\n"
+    send_discord_message(WH_ERROR_URL, error_msg)

@@ -26,4 +26,5 @@ config = {
     "BASE_API_URL": os.getenv("BASE_API_URL"),
     "PREV_NOTICES_COUNT": read_prev_count(),
     "ROLE_ID": os.getenv("ROLE_ID"),
+    "WEBHOOK_ERROR_URL": os.getenv("DISCORD_ERROR_WEBHOOK_URL"),
 }
