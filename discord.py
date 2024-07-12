@@ -91,6 +91,7 @@ def send_discord_message(webhook_url, message):
 
 
 def send_msg(response):
+    global notice_no
     data = response[0]["result"]["data"]
     random_emoji = random.choice(emojis)
     final_text = f"ㅤ\n\n{random_emoji} "
