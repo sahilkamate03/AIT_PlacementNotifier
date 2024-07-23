@@ -43,7 +43,7 @@ def worker(response):
     pending_notices = current_notices_count - prev_notices_count
 
     for i in range(pending_notices):
-        notice_id = notices[pending_notices - i]["id"]
+        notice_id = notices[pending_notices - i - 1]["id"]
         response = request_maker("notice.noticeDetail", notice_id=notice_id)
         send_msg(response)
         prev_notices_count += 1
