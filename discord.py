@@ -112,5 +112,5 @@ def send_msg(response):
 
 
 def send_error(error_msg):
-    error_msg += "<@&1046045978802782288>\n\n"
+    error_msg += "<@1046045978802782288>\n\n"
     send_discord_message(WH_ERROR_URL, error_msg)
